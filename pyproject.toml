@@ -1,0 +1,12 @@
+[project]
+name = "itch_main"
+version = "0.1.0"
+dependencies = [
+    "aiohttp",
+    "beautifulsoup4",
+    "requests"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

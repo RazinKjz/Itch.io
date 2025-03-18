@@ -1,0 +1,6 @@
+Metadata-Version: 2.2
+Name: itch_main
+Version: 0.1.0
+Requires-Dist: aiohttp
+Requires-Dist: beautifulsoup4
+Requires-Dist: requests
