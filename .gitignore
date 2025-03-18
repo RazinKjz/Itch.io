@@ -1,0 +1,30 @@
+
+# 🚀 Ignore virtual environments
+.itch_venv/
+.venv/
+
+# 🚀 Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🚀 Ignore SQLite database files
+*.sqlite3
+*.db
+
+# 🚀 Ignore macOS system files
+.DS_Store
+
+# 🚀 Ignore VS Code settings
+.vscode/
+*.code-workspace
+
+# 🚀 Ignore package metadata
+*.egg-info/
+dist/
+build/
+
+# 🚀 Ignore uv lock file
+uv.lock
+
