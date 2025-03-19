@@ -36,22 +36,34 @@ def save_to_db(game_data):
 def GetPage(number):
     """Fetch game data from Itch.io and save it to SQLite."""
     url = f"https://itch.io/games?page={number}&format=json"
-    response = requests.get(url)
-    data = response.json()
 
-    content = data.get("content", "")
-    soup = BeautifulSoup(content, "html.parser")
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # ❌ Raise error for HTTP failures
 
-    games = [(game.text.strip(), game["href"]) for game in soup.find_all("a", class_="title game_link")]
+        data = response.json()  # ✅ Try to parse JSON
 
-    print(f"Found {len(games)} games on page {number}")
-    save_to_db(games)
+        content = data.get("content", "")
+        soup = BeautifulSoup(content, "html.parser")
+
+        games = [(game.text.strip(), game["href"]) for game in soup.find_all("a", class_="title game_link")]
+
+        print(f"✅ Found {len(games)} games on page {number}")
+        save_to_db(games)
+
+    except requests.exceptions.HTTPError as e:
+        print(f"❌ HTTP Error {response.status_code}: {e}")
+    except requests.exceptions.JSONDecodeError:
+        print("❌ JSON Decode Error: Response is not valid JSON!")
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Request failed: {e}")
+
 
 # Create table before scraping
 create_table()
 
 # Scrape and save multiple pages
-for page in range(1, 9):  # Change range to scrape more pages
+for page in range(1, 201):  # Change range to scrape more pages
     GetPage(page)
 
 print("Database saved as 'itch_games.db'")
